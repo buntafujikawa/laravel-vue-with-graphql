@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  datastore:
+    image: busybox
+    volumes:
+      - ~/.db-data/twitter:/var/lib/mysql
+  db:
+    image: mysql:5.7
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --innodb-use-native-aio=0
+    user: "1000:50"
+    environment:
+      - MYSQL_DATABASE=twitter
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_USER=default
+      - MYSQL_PASSWORD=password
+      - TZ=Asia/Tokyo
+    ports:
+      - "3306:3306"
+    volumes_from:
+      - datastore
